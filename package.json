@@ -1,0 +1,32 @@
+{
+  "name": "react-with-media",
+  "version": "0.1.0",
+  "description": "",
+  "main": "dist/src/index.js",
+  "scripts": {
+    "build": "tscomp build",
+    "watch": "tscomp watch",
+    "test": "tscomp test",
+    "prepublish": "npm run build",
+    "docs": "typedoc --tsconfig tsconfig.json --out docs --ignoreCompilerErrors --theme ./node_modules/beanloop-doc-theme && touch docs/.nojekyll"
+  },
+  "repository": "https://github.com/beanloop/react-with-media.git",
+  "author": "Beanloop AB",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/react": "^15.0.0",
+    "react": "^15.4.2",
+    "beanloop-doc-theme": "^0.2.0",
+    "tscomp": "^0.7.4",
+    "tslint": "^4.0.2",
+    "tslint-config-beanloop": "^0.1.0",
+    "typedoc": "^0.5.3"
+  },
+  "dependencies": {
+    "recompose": "^0.21.2"
+  },
+  "peerDependencies": {
+    "@types/react": "^15.0.0",
+    "react": "^15.4.2"
+  }
+}
