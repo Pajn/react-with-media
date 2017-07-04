@@ -1,4 +1,4 @@
-import {Component} from 'react'
+import React from 'react'
 import wrapDisplayName from 'recompose/wrapDisplayName'
 
 /**
@@ -19,7 +19,7 @@ import wrapDisplayName from 'recompose/wrapDisplayName'
 export const withMedia: any = (query, {name = 'matches'} = {}) => WrappedComponent => {
   const media = window.matchMedia(query)
 
-  return class extends Component<any, {matches: boolean}> {
+  return class extends React.Component<any, {matches: boolean}> {
     static displayName = wrapDisplayName(WrappedComponent, 'withMedia')
     state = {matches: media.matches}
     mediaListener = () => this.setState({matches: media.matches})
