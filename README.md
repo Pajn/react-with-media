@@ -1,5 +1,4 @@
 # react-with-media
-[![Build Status](https://travis-ci.org/beanloop/react-with-media.svg?branch=master)](https://travis-ci.org/beanloop/react-with-media)
 [![npm version](https://badge.fury.io/js/react-with-media.svg)](https://badge.fury.io/js/react-with-media)
 [![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org)
 
