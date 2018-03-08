@@ -1,6 +1,6 @@
 {
   "name": "react-with-media",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "",
   "main": "cjs/index.js",
   "module": "lib/index.js",
@@ -9,8 +9,7 @@
     "build": "tscomp build",
     "watch": "tscomp watch",
     "test": "tscomp test",
-    "format":
-      "prettier --write --single-quote --trailing-comma all --no-bracket-spacing --no-semi src/**/*.{js,jsx,ts,tsx}"
+    "format": "prettier --write --single-quote --trailing-comma all --no-bracket-spacing --no-semi src/**/*.{js,jsx,ts,tsx}"
   },
   "author": "Rasmus Eneman <rasmus@eneman.eu>",
   "license": "(Apache-2.0 OR MIT)",
