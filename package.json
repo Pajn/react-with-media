@@ -1,6 +1,6 @@
 {
   "name": "react-with-media",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "",
   "main": "cjs/index.js",
   "module": "lib/index.js",
@@ -9,26 +9,27 @@
     "build": "tscomp build",
     "watch": "tscomp watch",
     "test": "tscomp test",
-    "prepublish": "npm run build",
-    "docs": "typedoc --tsconfig tsconfig.json --out docs --ignoreCompilerErrors --theme ./node_modules/beanloop-doc-theme && touch docs/.nojekyll"
+    "format":
+      "prettier --write --single-quote --trailing-comma all --no-bracket-spacing --no-semi src/**/*.{js,jsx,ts,tsx}"
   },
-  "author": "Beanloop AB",
-  "license": "MIT",
+  "author": "Rasmus Eneman <rasmus@eneman.eu>",
+  "license": "(Apache-2.0 OR MIT)",
   "devDependencies": {
-    "@types/react": "^15.0.14",
-    "beanloop-doc-theme": "^0.2.0",
-    "react": "^15.4.2",
-    "tscomp": "^0.12.0",
-    "tslint": "^4.0.2",
-    "tslint-config-beanloop": "^0.1.0",
-    "typedoc": "^0.5.3"
+    "@types/react": "^16.0.16",
+    "prettier": "^1.7.4",
+    "react": "^16.0.0",
+    "tscomp": "^0.13.2",
+    "tslint": "^5.8.0",
+    "tslint-config-pajn": "^1.0.0"
   },
   "dependencies": {
-    "recompose": "^0.21.2"
+    "recompose": "^0.26.0"
   },
   "peerDependencies": {
-    "@types/react": "^15.0.14",
-    "react": "^15.4.2"
+    "react": "^16.0.0"
+  },
+  "optionalDependencies": {
+    "@types/react": "^16.0.16"
   },
   "tscomp": {
     "mode": "lib"

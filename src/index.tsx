@@ -1,5 +1,5 @@
 import React from 'react'
-import wrapDisplayName from 'recompose/wrapDisplayName'
+import {wrapDisplayName} from 'recompose'
 
 /**
  * A HOC for watching media queries.
@@ -16,24 +16,31 @@ import wrapDisplayName from 'recompose/wrapDisplayName'
  *   )
  * ```
  */
-export const withMedia: any = (query, {name = 'matches'} = {}) => WrappedComponent => {
-  const media = window.matchMedia(query)
+export function withMedia<P, N extends string, Injected = {[K in N]: boolean}>(
+  query: string,
+  {name = 'matches'}: {name?: N} = {},
+) {
+  return (WrappedComponent: React.ComponentType<P & Injected>) => {
+    const media = window.matchMedia(query)
 
-  return class extends React.Component<any, {matches: boolean}> {
-    static displayName = wrapDisplayName(WrappedComponent, 'withMedia')
-    state = {matches: media.matches}
-    mediaListener = () => this.setState({matches: media.matches})
+    return class extends React.Component<P, {matches: boolean}> {
+      static displayName = wrapDisplayName(WrappedComponent, 'withMedia')
+      state = {matches: media.matches}
+      mediaListener = () => this.setState({matches: media.matches})
 
-    componentDidMount() {
-      media.addListener(this.mediaListener)
-    }
+      componentDidMount() {
+        media.addListener(this.mediaListener)
+      }
 
-    componentWillUnmount() {
-      media.removeListener(this.mediaListener)
-    }
+      componentWillUnmount() {
+        media.removeListener(this.mediaListener)
+      }
 
-    render() {
-      return <WrappedComponent {...{...this.props, [name]: this.state.matches}} />
+      render() {
+        return (
+          <WrappedComponent {...this.props} {...{[name]: this.state.matches}} />
+        )
+      }
     }
   }
 }
