@@ -9,7 +9,8 @@
     "build": "tscomp build",
     "watch": "tscomp watch",
     "test": "tscomp test",
-    "format": "prettier --write --single-quote --trailing-comma all --no-bracket-spacing --no-semi src/**/*.{js,jsx,ts,tsx}"
+    "format":
+      "prettier --write --single-quote --trailing-comma all --no-bracket-spacing --no-semi src/**/*.{js,jsx,ts,tsx}"
   },
   "author": "Rasmus Eneman <rasmus@eneman.eu>",
   "license": "(Apache-2.0 OR MIT)",
@@ -17,7 +18,7 @@
     "@types/react": "^16.0.16",
     "prettier": "^1.7.4",
     "react": "^16.0.0",
-    "tscomp": "^0.13.2",
+    "tscomp": "^1.0.0-beta.9",
     "tslint": "^5.8.0",
     "tslint-config-pajn": "^1.0.0"
   },

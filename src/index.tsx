@@ -1,4 +1,10 @@
-import React from 'react'
+import {
+  Component,
+  ComponentClass,
+  ComponentType,
+  ReactNode,
+  createElement,
+} from 'react'
 import {wrapDisplayName} from 'recompose'
 
 /**
@@ -16,14 +22,16 @@ import {wrapDisplayName} from 'recompose'
  *   )
  * ```
  */
-export function withMedia<P, N extends string, Injected = {[K in N]: boolean}>(
+export function withMedia<P>(
   query: string,
-  {name = 'matches'}: {name?: N} = {},
-) {
-  return (WrappedComponent: React.ComponentType<P & Injected>) => {
+  {name = 'matches'} = {},
+): (
+  WrappedComponent: ComponentType<P & {matches: boolean}>,
+) => ComponentClass<P> {
+  return WrappedComponent => {
     const media = window.matchMedia(query)
 
-    return class extends React.Component<P, {matches: boolean}> {
+    return class extends Component<P, {matches: boolean}> {
       static displayName = wrapDisplayName(WrappedComponent, 'withMedia')
       state = {matches: media.matches}
       mediaListener = () => this.setState({matches: media.matches})
@@ -37,10 +45,46 @@ export function withMedia<P, N extends string, Injected = {[K in N]: boolean}>(
       }
 
       render() {
-        return (
-          <WrappedComponent {...this.props} {...{[name]: this.state.matches}} />
-        )
+        return createElement(WrappedComponent, {
+          ...(this.props as any),
+          [name]: this.state.matches,
+        })
       }
     }
+  }
+}
+
+export class WithMedia extends Component<
+  {query: string; children: (matches: boolean) => ReactNode},
+  {matches: boolean}
+> {
+  media = window.matchMedia(this.props.query)
+  state = {matches: this.media.matches}
+  mediaListener = () => this.setState({matches: this.media.matches})
+
+  componentDidMount() {
+    if (this.state.matches !== this.media.matches) {
+      this.setState({matches: this.media.matches})
+    }
+    this.media.addListener(this.mediaListener)
+  }
+
+  componentDidUpdate(prevProps: this['props']) {
+    if (this.props.query !== prevProps.query) {
+      this.media.removeListener(this.mediaListener)
+      this.media = window.matchMedia(this.props.query)
+      if (this.state.matches !== this.media.matches) {
+        this.setState({matches: this.media.matches})
+      }
+      this.media.addListener(this.mediaListener)
+    }
+  }
+
+  componentWillUnmount() {
+    this.media.removeListener(this.mediaListener)
+  }
+
+  render() {
+    return this.props.children(this.state.matches) as any
   }
 }
