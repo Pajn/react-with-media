@@ -1,6 +1,6 @@
 {
   "name": "react-with-media",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Watch media queries in React components",
   "main": "cjs/index.js",
   "module": "lib/index.js",
