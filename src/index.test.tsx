@@ -1,6 +1,5 @@
 import {mount} from 'enzyme'
 import React from 'react'
-// import TestRenderer from 'react-test-renderer'
 import { WithMedia, useMedia, withMedia } from ".";
 
 type Mutable<T> = {
