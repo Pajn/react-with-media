@@ -4,8 +4,42 @@ import {
   ComponentType,
   ReactNode,
   createElement,
+  useEffect,
+  useState,
 } from 'react'
 import {wrapDisplayName} from 'recompose'
+
+/**
+ * A hook for watching media queries.
+ *
+ * It returns whenever the media query matches or not
+ *
+ * Example:
+ * ```typescript
+ * const ShowMessage = () => {
+ *   const matches = useMedia('(max-width: 500px)')
+ *
+ *   return matches
+ *     ? <span>Is mobile</span>
+ *     : <span>Is desktop</span>
+ * }
+ * ```
+ */
+export function useMedia(query: string) {
+  const media = window.matchMedia(query)
+  const [matches, setMatches] = useState(media.matches)
+  const mediaListener = () => setMatches(media.matches)
+
+  useEffect(() => {
+    media.addListener(mediaListener)
+
+    // if (matches !== medi)
+
+    return () => media.removeListener(mediaListener)
+  }, [query])
+
+  return matches
+}
 
 /**
  * A HOC for watching media queries.
@@ -54,6 +88,22 @@ export function withMedia<P>(
   }
 }
 
+/**
+ * A render prop component for watching media queries.
+ *
+ * It provides a matches argument to the children function.
+ *
+ * Example:
+ * ```typescript
+ * const ShowMessage = () =>
+ *   <WithMedia query='(max-width: 500px)'>
+ *     {matches => matches
+ *       ? <span>Is mobile</span>
+ *       : <span>Is desktop</span>
+ *     }
+ *   </WithMedia>
+ * ```
+ */
 export class WithMedia extends Component<
   {query: string; children: (matches: boolean) => ReactNode},
   {matches: boolean}

@@ -2,3 +2,4 @@ node_modules/
 tsconfig.json
 npm-debug.log
 yarn.lock
+src
