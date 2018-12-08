@@ -1,6 +1,6 @@
 # react-with-media
 
-Watching media queries in React components.
+Watch media queries in React components.
 A hook, A HOC and a render prop component are provided so that you can use whatever flavor you prefer.
 
 Typescript typings are included.
