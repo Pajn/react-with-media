@@ -25,18 +25,21 @@ import {wrapDisplayName} from 'recompose'
  * }
  * ```
  */
-export function useMedia(query: string) {
+export function useMedia(query: string, {ssrMatches = false} = {}) {
+  if (typeof window === 'undefined') return ssrMatches
+
   const media = window.matchMedia(query)
   const [matches, setMatches] = useState(media.matches)
   const mediaListener = () => setMatches(media.matches)
 
-  useEffect(() => {
-    media.addListener(mediaListener)
+  useEffect(
+    () => {
+      media.addListener(mediaListener)
 
-    // if (matches !== medi)
-
-    return () => media.removeListener(mediaListener)
-  }, [query])
+      return () => media.removeListener(mediaListener)
+    },
+    [query],
+  )
 
   return matches
 }
@@ -58,12 +61,15 @@ export function useMedia(query: string) {
  */
 export function withMedia<P>(
   query: string,
-  {name = 'matches'} = {},
+  {name = 'matches', ssrMatches = false} = {},
 ): (
   WrappedComponent: ComponentType<P & {matches: boolean}>,
 ) => ComponentClass<P> {
   return WrappedComponent => {
-    const media = window.matchMedia(query)
+    const media =
+      typeof window === 'undefined'
+        ? ({matches: ssrMatches} as MediaQueryList)
+        : window.matchMedia(query)
 
     return class extends Component<P, {matches: boolean}> {
       static displayName = wrapDisplayName(WrappedComponent, 'withMedia')
@@ -105,10 +111,17 @@ export function withMedia<P>(
  * ```
  */
 export class WithMedia extends Component<
-  {query: string; children: (matches: boolean) => ReactNode},
+  {
+    query: string
+    children: (matches: boolean) => ReactNode
+    ssrMatches?: boolean
+  },
   {matches: boolean}
 > {
-  media = window.matchMedia(this.props.query)
+  media =
+    typeof window === 'undefined'
+      ? ({matches: this.props.ssrMatches} as MediaQueryList)
+      : window.matchMedia(this.props.query)
   state = {matches: this.media.matches}
   mediaListener = () => this.setState({matches: this.media.matches})
 
