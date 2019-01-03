@@ -7,7 +7,7 @@ import {
   useEffect,
   useState,
 } from 'react'
-import {wrapDisplayName} from 'recompose'
+import wrapDisplayName from 'recompose/wrapDisplayName'
 
 /**
  * A hook for watching media queries.
