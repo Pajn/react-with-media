@@ -1,6 +1,6 @@
 {
   "name": "react-with-media",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Watch media queries in React components",
   "main": "cjs/index.js",
   "module": "lib/index.js",
@@ -26,9 +26,9 @@
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.7.0",
     "prettier": "^1.15.3",
-    "react": "^16.7.0-alpha.2",
-    "react-dom": "16.7.0-alpha.2",
-    "tscomp": "^1.0.0-beta.10",
+    "react": "^16.8.3",
+    "react-dom": "16.8.3",
+    "tscomp": "^1.0.0-beta.11",
     "tslint": "^5.11.0",
     "tslint-config-pajn": "^1.0.0"
   },
