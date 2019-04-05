@@ -74,7 +74,11 @@ export function withMedia<P>(
     return class extends Component<P, {matches: boolean}> {
       static displayName = wrapDisplayName(WrappedComponent, 'withMedia')
       state = {matches: media.matches}
-      mediaListener = () => this.setState({matches: media.matches})
+      mediaListener = () => {
+        if (this.state.matches !== media.matches) {
+          this.setState({matches: media.matches})
+        }
+      }
 
       componentDidMount() {
         media.addListener(this.mediaListener)
@@ -123,7 +127,11 @@ export class WithMedia extends Component<
       ? ({matches: this.props.ssrMatches} as MediaQueryList)
       : window.matchMedia(this.props.query)
   state = {matches: this.media.matches}
-  mediaListener = () => this.setState({matches: this.media.matches})
+  mediaListener = () => {
+    if (this.state.matches !== this.media.matches) {
+      this.setState({matches: this.media.matches})
+    }
+  }
 
   componentDidMount() {
     if (this.state.matches !== this.media.matches) {
