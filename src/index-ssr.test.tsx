@@ -1,9 +1,9 @@
 /**
  * @jest-environment node
  */
-import React from 'react'
+import * as React from 'react'
 import {renderToStaticMarkup} from 'react-dom/server'
-import {WithMedia, useMedia, withMedia} from '.'
+import {WithMedia, useMedia} from '.'
 
 describe('react-with-media', () => {
   describe('useMedia', () => {
@@ -22,27 +22,6 @@ describe('react-with-media', () => {
         const matches = useMedia('(max-width: 500px)', {ssrMatches: true})
         return matches ? <span>Is mobile</span> : <span>Is desktop</span>
       }
-
-      const target = renderToStaticMarkup(<ShowMessage />)
-      expect(target).toEqual('<span>Is mobile</span>')
-    })
-  })
-
-  describe('withMedia', () => {
-    it('should return false by default', () => {
-      const ShowMessage = withMedia('(max-width: 500px)')(({matches}) =>
-        matches ? <span>Is mobile</span> : <span>Is desktop</span>,
-      )
-
-      const target = renderToStaticMarkup(<ShowMessage />)
-      expect(target).toEqual('<span>Is desktop</span>')
-    })
-
-    it('should return true if configured', () => {
-      const ShowMessage = withMedia('(max-width: 500px)', {ssrMatches: true})(
-        ({matches}) =>
-          matches ? <span>Is mobile</span> : <span>Is desktop</span>,
-      )
 
       const target = renderToStaticMarkup(<ShowMessage />)
       expect(target).toEqual('<span>Is mobile</span>')

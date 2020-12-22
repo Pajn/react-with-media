@@ -1,13 +1,9 @@
 import {
   Component,
-  ComponentClass,
-  ComponentType,
   ReactNode,
-  createElement,
   useEffect,
   useState,
 } from 'react'
-import wrapDisplayName from 'recompose/wrapDisplayName'
 
 /**
  * A hook for watching media queries.
@@ -34,68 +30,14 @@ export function useMedia(query: string, {ssrMatches = false} = {}) {
 
   useEffect(
     () => {
-      media.addListener(mediaListener)
+      media.addEventListener('change', mediaListener)
 
-      return () => media.removeListener(mediaListener)
+      return () => media.removeEventListener('change', mediaListener)
     },
     [query],
   )
 
   return matches
-}
-
-/**
- * A HOC for watching media queries.
- *
- * It provides a matches prop to the wrapped component.
- * The 'matches' prop can be renamed by passing a name property as a second parameter
- *
- * Example:
- * ```typescript
- * const ShowMessage = withMedia('(max-width: 500px)')(({matches}) =>
- *   matches
- *     ? <span>Is mobile</span>
- *     : <span>Is desktop</span>
- *   )
- * ```
- */
-export function withMedia<P>(
-  query: string,
-  {name = 'matches', ssrMatches = false} = {},
-): (
-  WrappedComponent: ComponentType<P & {matches: boolean}>,
-) => ComponentClass<P> {
-  return WrappedComponent => {
-    const media =
-      typeof window === 'undefined'
-        ? ({matches: ssrMatches} as MediaQueryList)
-        : window.matchMedia(query)
-
-    return class extends Component<P, {matches: boolean}> {
-      static displayName = wrapDisplayName(WrappedComponent, 'withMedia')
-      state = {matches: media.matches}
-      mediaListener = () => {
-        if (this.state.matches !== media.matches) {
-          this.setState({matches: media.matches})
-        }
-      }
-
-      componentDidMount() {
-        media.addListener(this.mediaListener)
-      }
-
-      componentWillUnmount() {
-        media.removeListener(this.mediaListener)
-      }
-
-      render() {
-        return createElement(WrappedComponent, {
-          ...(this.props as any),
-          [name]: this.state.matches,
-        })
-      }
-    }
-  }
 }
 
 /**
@@ -137,22 +79,22 @@ export class WithMedia extends Component<
     if (this.state.matches !== this.media.matches) {
       this.setState({matches: this.media.matches})
     }
-    this.media.addListener(this.mediaListener)
+    this.media.addEventListener('change', this.mediaListener)
   }
 
   componentDidUpdate(prevProps: this['props']) {
     if (this.props.query !== prevProps.query) {
-      this.media.removeListener(this.mediaListener)
+      this.media.removeEventListener('change', this.mediaListener)
       this.media = window.matchMedia(this.props.query)
       if (this.state.matches !== this.media.matches) {
         this.setState({matches: this.media.matches})
       }
-      this.media.addListener(this.mediaListener)
+      this.media.addEventListener('change', this.mediaListener)
     }
   }
 
   componentWillUnmount() {
-    this.media.removeListener(this.mediaListener)
+    this.media.removeEventListener('change', this.mediaListener)
   }
 
   render() {
